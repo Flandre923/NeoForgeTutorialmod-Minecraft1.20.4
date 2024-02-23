@@ -1,0 +1,5 @@
+{
+  "loader": "neoforge:obj",
+  "model": "examplemod:models/block/obsidian_obj.obj",
+  "flip_v": true
+}
