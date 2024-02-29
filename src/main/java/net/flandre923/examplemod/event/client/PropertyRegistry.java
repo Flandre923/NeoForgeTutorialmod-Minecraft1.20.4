@@ -8,6 +8,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 
 @Mod.EventBusSubscriber(modid = ExampleMod.MODID,bus = Mod.EventBusSubscriber.Bus.MOD,value = Dist.CLIENT)
 public class PropertyRegistry {
@@ -18,7 +19,6 @@ public class PropertyRegistry {
             ItemProperties.register(ModItems.MAGIC_INGOT.get(),new ResourceLocation(ExampleMod.MODID,"size"),(itemStack,level,livingEntity,int_num)->{
                 return itemStack.getCount();
             });
-
         });
     }
 

@@ -15,5 +15,4 @@ public class ClientEventHandler {
             BlockEntityRenderers.register(ModBlockEntities.RUBY_FRAME_BLOCK_ENTITY.get(),RubyFrameBlockEntityRender::new);
         });
     }
-
 }

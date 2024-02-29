@@ -4,12 +4,16 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.flandre923.examplemod.ExampleMod;
 import net.flandre923.examplemod.block.ModBlocks;
 import net.flandre923.examplemod.client.model.HiddenBlockModel;
+import net.flandre923.examplemod.client.model.WrenchBakeModel;
 import net.flandre923.examplemod.item.ModItems;
 import net.flandre923.examplemod.villager.ModVillagers;
 import net.minecraft.client.renderer.block.BlockModelShaper;
 import net.minecraft.client.renderer.block.ModelBlockRenderer;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.item.ItemStack;
@@ -23,6 +27,7 @@ import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.neoforge.event.village.VillagerTradesEvent;
 
 import java.util.List;
+import java.util.Map;
 
 public class ModEvent {
     @Mod.EventBusSubscriber(modid = ExampleMod.MODID)
@@ -66,6 +71,19 @@ public class ModEvent {
                     HiddenBlockModel obsidianHiddenBlockModel = new HiddenBlockModel(existingModel);
                     event.getModels().put(modelResourceLocation, obsidianHiddenBlockModel);
                 }
+            }
+
+            // wrench item model
+            Map<ResourceLocation, BakedModel> modelRegistry = event.getModels();
+            ModelResourceLocation location = new ModelResourceLocation(BuiltInRegistries.ITEM.getKey(ModItems.WRENCH_ITEM.get()), "inventory");
+            BakedModel existingModel = modelRegistry.get(location);
+            if (existingModel == null) {
+                throw new RuntimeException("Did not find Obsidian Hidden in registry");
+            } else if (existingModel instanceof WrenchBakeModel) {
+                throw new RuntimeException("Tried to replaceObsidian Hidden twice");
+            } else {
+                WrenchBakeModel obsidianWrenchBakedModel = new WrenchBakeModel(existingModel);
+                event.getModels().put(location, obsidianWrenchBakedModel);
             }
         }
     }
