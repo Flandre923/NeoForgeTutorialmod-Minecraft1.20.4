@@ -2,6 +2,7 @@ package net.flandre923.examplemod.block;
 
 import net.flandre923.examplemod.ExampleMod;
 import net.flandre923.examplemod.block.custom.*;
+import net.flandre923.examplemod.item.ModItems;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -41,7 +42,7 @@ public class ModBlocks {
         registerBlockItem(name, block, new Item.Properties());
     }
     public static void registerBlockItem(String name, Supplier<Block> block, Item.Properties properties){
-        ITEMS.register(name, () -> new BlockItem(block.get(), properties));
+        ModItems.register(name, () -> new BlockItem(block.get(), properties));
     }
     public static void register(IEventBus eventBus){
         BLOCKS.register(eventBus);
