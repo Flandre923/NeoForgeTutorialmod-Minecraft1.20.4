@@ -2,10 +2,7 @@ package net.flandre923.examplemod.block.blockentity;
 
 import net.flandre923.examplemod.ExampleMod;
 import net.flandre923.examplemod.block.ModBlocks;
-import net.flandre923.examplemod.block.blockentity.custom.CounterBlockEntity;
-import net.flandre923.examplemod.block.blockentity.custom.HelloBlockEntity;
-import net.flandre923.examplemod.block.blockentity.custom.RubyFrameBlockEntity;
-import net.flandre923.examplemod.block.blockentity.custom.ZombieBlockEntity;
+import net.flandre923.examplemod.block.blockentity.custom.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.IEventBus;
@@ -35,6 +32,16 @@ public class ModBlockEntities {
             BLOCK_ENTITIES.register("ruby_frame_block_entity", () ->
                     BlockEntityType.Builder.of(RubyFrameBlockEntity::new,
                             ModBlocks.RUBY_FRAME.get()).build(null));
+
+    public static final Supplier<BlockEntityType<DownBlockBlockEntity>> DOWN_BLOCK_BLOCK_ENTITY =
+            BLOCK_ENTITIES.register("down_block_entity", () ->
+                    BlockEntityType.Builder.of(DownBlockBlockEntity::new,
+                            ModBlocks.DOWN_BLOCK.get()).build(null));
+    public static final Supplier<BlockEntityType<UpBlockBlockEntity>> UP_BLOCK_BLOCK_ENTITY =
+            BLOCK_ENTITIES.register("up_block_entity", () ->
+                    BlockEntityType.Builder.of(UpBlockBlockEntity::new,
+                            ModBlocks.UP_BLOCK.get()).build(null));
+
     public static void register(IEventBus eventBus) {
         BLOCK_ENTITIES.register(eventBus);
     }

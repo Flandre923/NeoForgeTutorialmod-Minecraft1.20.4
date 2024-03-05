@@ -18,7 +18,6 @@ public class FirstAnimal extends Animal {
 
     @Override
     protected void registerGoals() {
-        super.registerGoals();
         this.goalSelector.addGoal(0,new MyGoal(this));
     }
 

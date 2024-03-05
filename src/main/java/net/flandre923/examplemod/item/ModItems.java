@@ -29,6 +29,7 @@ public class ModItems {
     public static final Supplier<Item> RUBY_WAND = register("ruby_wand", RubyWand::new);
     public static final Supplier<Item> WRENCH_ITEM = register("wrench_item",WrenchItem::new);
     public static final Supplier<Item> MESSAGE_ITEM = register("message_item", MessageItem::new);
+    public static final Supplier<Item> ENCHANTMENT_EXAMPLE_ITEM = register("enchantment_example_item",EnchantmentExampleItem::new);
 
 
     public static Supplier<Item> register(String name, Supplier<Item> supplier){

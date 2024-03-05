@@ -14,7 +14,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 
-public class FlyingSwordEntityRenderer extends EntityRenderer {
+public class FlyingSwordEntityRenderer extends EntityRenderer<FlyingSwordEntity> {
     private EntityModel<FlyingSwordEntity> flyingSwordModel;
 
     public FlyingSwordEntityRenderer(EntityRendererProvider.Context pContext) {
@@ -23,12 +23,12 @@ public class FlyingSwordEntityRenderer extends EntityRenderer {
     }
 
     @Override
-    public ResourceLocation getTextureLocation(Entity pEntity) {
+    public ResourceLocation getTextureLocation(FlyingSwordEntity pEntity) {
         return new ResourceLocation(ExampleMod.MODID, "textures/entity/flying_sword_entity.png");
     }
 
     @Override
-    public void render(Entity pEntity, float pEntityYaw, float pPartialTick, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight) {
+    public void render(FlyingSwordEntity pEntity, float pEntityYaw, float pPartialTick, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight) {
         super.render(pEntity, pEntityYaw, pPartialTick, pPoseStack, pBuffer, pPackedLight);
         pPoseStack.pushPose();
         pPoseStack.mulPose(Axis.YN.rotationDegrees(45));

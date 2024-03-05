@@ -3,6 +3,7 @@ package net.flandre923.examplemod;
 import com.mojang.logging.LogUtils;
 import net.flandre923.examplemod.block.ModBlocks;
 import net.flandre923.examplemod.block.blockentity.ModBlockEntities;
+import net.flandre923.examplemod.enchantment.ModEnchantments;
 import net.flandre923.examplemod.entity.ModEntityTypes;
 import net.flandre923.examplemod.item.ModCreativeTab;
 import net.flandre923.examplemod.item.ModItems;
@@ -54,6 +55,7 @@ public class ExampleMod
         ModVillagers.register(modEventBus);
         ModBlockEntities.register(modEventBus);
         ModEntityTypes.register(modEventBus);
+        ModEnchantments.register(modEventBus);
         NeoForge.EVENT_BUS.register(this);
     }
 
