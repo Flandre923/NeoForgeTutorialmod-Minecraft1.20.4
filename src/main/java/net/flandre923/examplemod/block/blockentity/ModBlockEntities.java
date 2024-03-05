@@ -42,6 +42,12 @@ public class ModBlockEntities {
                     BlockEntityType.Builder.of(UpBlockBlockEntity::new,
                             ModBlocks.UP_BLOCK.get()).build(null));
 
+    public static final Supplier<BlockEntityType<TrashBlockEntity>> TRASH_BLOCK_ENTITY =
+            BLOCK_ENTITIES.register("trash_block_entity", () ->
+                    BlockEntityType.Builder.of(TrashBlockEntity::new,
+                            ModBlocks.TRASH_BLOCK.get()).build(null));
+
+
     public static void register(IEventBus eventBus) {
         BLOCK_ENTITIES.register(eventBus);
     }

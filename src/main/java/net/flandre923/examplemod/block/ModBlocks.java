@@ -34,6 +34,7 @@ public class ModBlocks {
     public static final Supplier<Block> HIDDEN_BLOCK = registerBlock("hidden_block",HiddenBlock::new);
     public static final Supplier<Block> DOWN_BLOCK = registerBlock("down_block",DownBlock::new);
     public static final Supplier<Block> UP_BLOCK = registerBlock("up_block",UpBlock::new);
+    public static final Supplier<Block> TRASH_BLOCK = registerBlock("trash_block",TrashBlock::new);
 
 
     public static Supplier<Block> registerBlock(String name,Supplier<Block> block){

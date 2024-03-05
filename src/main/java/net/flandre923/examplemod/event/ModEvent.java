@@ -9,16 +9,22 @@ import net.flandre923.examplemod.entity.FirstAnimal;
 import net.flandre923.examplemod.entity.ModEntityTypes;
 import net.flandre923.examplemod.item.ModItems;
 import net.flandre923.examplemod.villager.ModVillagers;
+import net.minecraft.core.Direction;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.village.VillagerTradesEvent;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.wrapper.InvWrapper;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -63,6 +69,56 @@ public class ModEvent {
                     ModCapabilities.SIMPLE_CAPABILITY_HANDLER,
                     ModBlockEntities.DOWN_BLOCK_BLOCK_ENTITY.get(),
                     (myBlockEntity, side) -> new SimpleCapability("hello")
+            );
+
+            //item handler
+            event.registerBlockEntity(
+                    Capabilities.ItemHandler.BLOCK,
+                    ModBlockEntities.TRASH_BLOCK_ENTITY.get(),
+                    (myBlockEntity,side)->{
+                        if(side == Direction.UP){
+                            return new IItemHandler() {
+                                @Override
+                                public int getSlots() {
+                                    return 1;
+                                }
+
+                                @Override
+                                public @NotNull ItemStack getStackInSlot(int slot) {
+                                    return ItemStack.EMPTY;
+                                }
+
+                                @Override
+                                public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
+                                    if (!this.isItemValid(slot,stack))return stack;
+                                    if (simulate){
+                                        return ItemStack.EMPTY;
+                                    }else{
+                                        stack = stack.copy();
+                                        stack.shrink(1);
+                                        return stack;
+                                    }
+                                }
+
+                                @Override
+                                public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
+                                    return ItemStack.EMPTY;
+                                }
+
+                                @Override
+                                public int getSlotLimit(int slot) {
+                                    return slot;
+                                }
+
+                                @Override
+                                public boolean isItemValid(int slot, @NotNull ItemStack stack) {
+                                    return stack.getItem() == Items.COBBLESTONE;
+                                }
+                            };
+                        }else{
+                            return null;
+                        }
+                    }
             );
         }
     }
