@@ -31,6 +31,7 @@ public class ModItems {
     public static final Supplier<Item> MESSAGE_ITEM = register("message_item", MessageItem::new);
     public static final Supplier<Item> ENCHANTMENT_EXAMPLE_ITEM = register("enchantment_example_item",EnchantmentExampleItem::new);
 
+    public static final Supplier<Item> SPEED_UP_SHOW_ITEM = register("speed_up_show_item",SpeedUpShowItem::new);
 
     public static Supplier<Item> register(String name, Supplier<Item> supplier){
         Supplier<Item> supplierItem =  ITEMS.register(name,supplier);

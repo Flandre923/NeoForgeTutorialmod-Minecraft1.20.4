@@ -5,6 +5,7 @@ import net.flandre923.examplemod.enchantment.ExampleModReference;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.capabilities.BlockCapability;
+import net.neoforged.neoforge.capabilities.EntityCapability;
 
 import javax.annotation.Nullable;
 
@@ -15,5 +16,10 @@ public class ModCapabilities {
                     new ResourceLocation(ExampleMod.MODID,"simple_capability_handler"),
                     ISimpleCapability.class
             );
+
+    public static final EntityCapability<ISpeedUpCapability,Void> SPEED_CAPABILITY_HANDLER =
+            EntityCapability.createVoid(new ResourceLocation(ExampleMod.MODID,"speed_capability_handler"),
+                    ISpeedUpCapability.class);
+
 
 }

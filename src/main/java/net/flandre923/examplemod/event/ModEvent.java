@@ -3,15 +3,19 @@ package net.flandre923.examplemod.event;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.flandre923.examplemod.ExampleMod;
 import net.flandre923.examplemod.block.blockentity.ModBlockEntities;
+import net.flandre923.examplemod.capability.ISpeedUpCapability;
 import net.flandre923.examplemod.capability.ModCapabilities;
 import net.flandre923.examplemod.capability.impl.SimpleCapability;
+import net.flandre923.examplemod.capability.provider.SpeedUpCapabilityProvider;
 import net.flandre923.examplemod.entity.FirstAnimal;
 import net.flandre923.examplemod.entity.ModEntityTypes;
 import net.flandre923.examplemod.item.ModItems;
 import net.flandre923.examplemod.villager.ModVillagers;
 import net.minecraft.core.Direction;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -19,6 +23,7 @@ import net.minecraft.world.item.trading.MerchantOffer;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.capabilities.ICapabilityProvider;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.village.VillagerTradesEvent;
@@ -75,8 +80,8 @@ public class ModEvent {
             event.registerBlockEntity(
                     Capabilities.ItemHandler.BLOCK,
                     ModBlockEntities.TRASH_BLOCK_ENTITY.get(),
-                    (myBlockEntity,side)->{
-                        if(side == Direction.UP){
+                    (myBlockEntity, side) -> {
+                        if (side == Direction.UP) {
                             return new IItemHandler() {
                                 @Override
                                 public int getSlots() {
@@ -90,10 +95,10 @@ public class ModEvent {
 
                                 @Override
                                 public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
-                                    if (!this.isItemValid(slot,stack))return stack;
-                                    if (simulate){
+                                    if (!this.isItemValid(slot, stack)) return stack;
+                                    if (simulate) {
                                         return ItemStack.EMPTY;
-                                    }else{
+                                    } else {
                                         stack = stack.copy();
                                         stack.shrink(1);
                                         return stack;
@@ -115,11 +120,15 @@ public class ModEvent {
                                     return stack.getItem() == Items.COBBLESTONE;
                                 }
                             };
-                        }else{
+                        } else {
                             return null;
                         }
                     }
             );
+
+            event.registerEntity(ModCapabilities.SPEED_CAPABILITY_HANDLER,
+                    EntityType.PLAYER,
+                    new SpeedUpCapabilityProvider());
         }
     }
 
