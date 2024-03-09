@@ -1,6 +1,7 @@
 package net.flandre923.examplemod.network;
 
 import com.mojang.logging.LogUtils;
+import net.flandre923.examplemod.network.packet.MyData;
 import net.minecraft.network.chat.Component;
 import net.neoforged.neoforge.network.handling.PlayPayloadContext;
 import org.slf4j.Logger;

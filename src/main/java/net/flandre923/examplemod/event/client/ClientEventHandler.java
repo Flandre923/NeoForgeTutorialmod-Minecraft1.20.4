@@ -2,6 +2,8 @@ package net.flandre923.examplemod.event.client;
 
 import net.flandre923.examplemod.block.ModBlocks;
 import net.flandre923.examplemod.block.blockentity.ModBlockEntities;
+import net.flandre923.examplemod.client.gui.ModMenuTypes;
+import net.flandre923.examplemod.client.gui.FistMenuGui;
 import net.flandre923.examplemod.client.model.HiddenBlockModel;
 import net.flandre923.examplemod.client.model.WrenchBakeModel;
 import net.flandre923.examplemod.client.model.entity.FirstAnimalModel;
@@ -11,6 +13,7 @@ import net.flandre923.examplemod.client.render.entity.FirstAnimalRenderer;
 import net.flandre923.examplemod.client.render.entity.FlyingSwordEntityRenderer;
 import net.flandre923.examplemod.entity.ModEntityTypes;
 import net.flandre923.examplemod.item.ModItems;
+import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.block.BlockModelShaper;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.EntityRenderers;
@@ -37,6 +40,8 @@ public class ClientEventHandler {
 
             EntityRenderers.register(ModEntityTypes.FLYING_SWORD_ENTITY.get(), FlyingSwordEntityRenderer::new);
             EntityRenderers.register(ModEntityTypes.FIRST_ANIMAL.get(), FirstAnimalRenderer::new);
+
+            MenuScreens.register(ModMenuTypes.FIRST_MENU.get(),FistMenuGui::new);
 
         });
 

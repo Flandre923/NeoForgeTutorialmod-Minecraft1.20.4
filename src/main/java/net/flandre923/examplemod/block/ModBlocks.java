@@ -36,6 +36,7 @@ public class ModBlocks {
     public static final Supplier<Block> UP_BLOCK = registerBlock("up_block",UpBlock::new);
     public static final Supplier<Block> TRASH_BLOCK = registerBlock("trash_block",TrashBlock::new);
     public static final Supplier<Block> DATA_SAVE_BLOCK = registerBlock("data_save_block",DataSaveBlock::new);
+    public static final Supplier<Block> FIRST_MENU_BLOCK = registerBlock("first_menu_block",FirstMenuBlock::new);
 
     public static Supplier<Block> registerBlock(String name,Supplier<Block> block){
         Supplier<Block> toReturn = BLOCKS.register(name, block);

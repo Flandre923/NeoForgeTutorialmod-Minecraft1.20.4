@@ -1,7 +1,6 @@
 package net.flandre923.examplemod.item.custom;
 
-import net.flandre923.examplemod.network.MyData;
-import net.flandre923.examplemod.network.Networking;
+import net.flandre923.examplemod.network.packet.MyData;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;

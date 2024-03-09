@@ -1,6 +1,7 @@
 package net.flandre923.examplemod.item;
 
 import net.flandre923.examplemod.ExampleMod;
+import net.flandre923.examplemod.client.gui.FirstGui;
 import net.flandre923.examplemod.item.custom.*;
 import net.flandre923.examplemod.item.custom.tool.ModArmorMaterial;
 import net.minecraft.core.registries.Registries;
@@ -30,6 +31,7 @@ public class ModItems {
     public static final Supplier<Item> WRENCH_ITEM = register("wrench_item",WrenchItem::new);
     public static final Supplier<Item> MESSAGE_ITEM = register("message_item", MessageItem::new);
     public static final Supplier<Item> ENCHANTMENT_EXAMPLE_ITEM = register("enchantment_example_item",EnchantmentExampleItem::new);
+    public static final Supplier<Item> FIRST_GUI_ITEM = register("first_gui_item", OpenFirstGuiItem::new);
 
     public static final Supplier<Item> SPEED_UP_SHOW_ITEM = register("speed_up_show_item",SpeedUpShowItem::new);
 

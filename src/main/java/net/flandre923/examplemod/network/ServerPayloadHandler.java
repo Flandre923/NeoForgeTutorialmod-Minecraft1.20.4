@@ -1,12 +1,10 @@
 package net.flandre923.examplemod.network;
 
 import com.mojang.logging.LogUtils;
-import net.flandre923.examplemod.ExampleMod;
+import net.flandre923.examplemod.network.packet.MyData;
 import net.minecraft.network.chat.Component;
 import net.neoforged.neoforge.network.handling.PlayPayloadContext;
 import org.slf4j.Logger;
-
-import java.util.logging.LogManager;
 
 public class ServerPayloadHandler {
     private static final ServerPayloadHandler INSTANCE = new ServerPayloadHandler();

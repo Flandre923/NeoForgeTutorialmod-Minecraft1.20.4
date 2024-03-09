@@ -4,6 +4,7 @@ import net.flandre923.examplemod.ExampleMod;
 import net.flandre923.examplemod.block.ModBlocks;
 import net.flandre923.examplemod.block.blockentity.custom.*;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -46,6 +47,11 @@ public class ModBlockEntities {
             BLOCK_ENTITIES.register("trash_block_entity", () ->
                     BlockEntityType.Builder.of(TrashBlockEntity::new,
                             ModBlocks.TRASH_BLOCK.get()).build(null));
+
+    public static final Supplier<BlockEntityType<FirstMenuBlockEntity>> FIRST_MENU_BLOCK_ENTITY =
+            BLOCK_ENTITIES.register("first_menu_block_entity",()->
+                    BlockEntityType.Builder.of(FirstMenuBlockEntity::new,
+                            ModBlocks.FIRST_MENU_BLOCK.get()).build(null));
 
 
     public static void register(IEventBus eventBus) {
