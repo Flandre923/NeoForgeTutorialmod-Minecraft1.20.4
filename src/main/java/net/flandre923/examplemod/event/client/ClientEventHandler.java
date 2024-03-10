@@ -1,9 +1,11 @@
 package net.flandre923.examplemod.event.client;
 
+import net.flandre923.examplemod.ExampleMod;
 import net.flandre923.examplemod.block.ModBlocks;
 import net.flandre923.examplemod.block.blockentity.ModBlockEntities;
 import net.flandre923.examplemod.client.gui.ModMenuTypes;
 import net.flandre923.examplemod.client.gui.FistMenuGui;
+import net.flandre923.examplemod.client.hud.ExampleHud;
 import net.flandre923.examplemod.client.model.HiddenBlockModel;
 import net.flandre923.examplemod.client.model.WrenchBakeModel;
 import net.flandre923.examplemod.client.model.entity.FirstAnimalModel;
@@ -28,6 +30,7 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.ModelEvent;
+import net.neoforged.neoforge.client.event.RegisterGuiOverlaysEvent;
 
 import java.util.Map;
 
@@ -81,4 +84,10 @@ public class ClientEventHandler {
             event.getModels().put(location, obsidianWrenchBakedModel);
         }
     }
+
+    @SubscribeEvent
+    public static void registerGuiOverlays(RegisterGuiOverlaysEvent event) {
+        event.registerAboveAll(new ResourceLocation(ExampleMod.MODID,"example_hud"), ExampleHud.getInstance());
+    }
+
 }

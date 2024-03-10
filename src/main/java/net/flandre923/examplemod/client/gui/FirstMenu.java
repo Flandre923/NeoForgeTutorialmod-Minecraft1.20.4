@@ -50,7 +50,6 @@ public class FirstMenu extends AbstractContainerMenu {
         }
     }
 
-
     public ContainerData getContainerData(){
         return this.data;
     }
