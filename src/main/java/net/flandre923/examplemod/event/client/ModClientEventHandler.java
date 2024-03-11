@@ -6,6 +6,7 @@ import net.flandre923.examplemod.block.blockentity.ModBlockEntities;
 import net.flandre923.examplemod.client.gui.ModMenuTypes;
 import net.flandre923.examplemod.client.gui.FistMenuGui;
 import net.flandre923.examplemod.client.hud.ExampleHud;
+import net.flandre923.examplemod.client.key.KeyBinding;
 import net.flandre923.examplemod.client.model.HiddenBlockModel;
 import net.flandre923.examplemod.client.model.WrenchBakeModel;
 import net.flandre923.examplemod.client.model.entity.FirstAnimalModel;
@@ -31,11 +32,12 @@ import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.neoforge.client.event.RegisterGuiOverlaysEvent;
+import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 
 import java.util.Map;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD,value = Dist.CLIENT)
-public class ClientEventHandler {
+public class ModClientEventHandler {
     @SubscribeEvent
     public static void onClientEvent(FMLClientSetupEvent event){
         event.enqueueWork(()->{
@@ -89,5 +91,12 @@ public class ClientEventHandler {
     public static void registerGuiOverlays(RegisterGuiOverlaysEvent event) {
         event.registerAboveAll(new ResourceLocation(ExampleMod.MODID,"example_hud"), ExampleHud.getInstance());
     }
+
+
+    @SubscribeEvent
+    public static void onKeyRegister(RegisterKeyMappingsEvent event) {
+        event.register(KeyBinding.DRINKING_KEY);
+    }
+
 
 }
