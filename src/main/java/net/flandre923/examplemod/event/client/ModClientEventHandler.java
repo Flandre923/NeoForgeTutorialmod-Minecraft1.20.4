@@ -6,6 +6,7 @@ import net.flandre923.examplemod.block.blockentity.ModBlockEntities;
 import net.flandre923.examplemod.client.gui.ModMenuTypes;
 import net.flandre923.examplemod.client.gui.FistMenuGui;
 import net.flandre923.examplemod.client.hud.ExampleHud;
+import net.flandre923.examplemod.client.hud.ThirstHud;
 import net.flandre923.examplemod.client.key.KeyBinding;
 import net.flandre923.examplemod.client.model.HiddenBlockModel;
 import net.flandre923.examplemod.client.model.WrenchBakeModel;
@@ -15,8 +16,11 @@ import net.flandre923.examplemod.client.render.RubyFrameBlockEntityRender;
 import net.flandre923.examplemod.client.render.entity.FirstAnimalRenderer;
 import net.flandre923.examplemod.client.render.entity.FlyingSwordEntityRenderer;
 import net.flandre923.examplemod.entity.ModEntityTypes;
+import net.flandre923.examplemod.fluid.ModFluids;
 import net.flandre923.examplemod.item.ModItems;
 import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.BlockModelShaper;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.EntityRenderers;
@@ -48,6 +52,9 @@ public class ModClientEventHandler {
 
             MenuScreens.register(ModMenuTypes.FIRST_MENU.get(),FistMenuGui::new);
 
+            //fluid
+            ItemBlockRenderTypes.setRenderLayer(ModFluids.MY_SOURCE_FLUID_BLOCK.get(), RenderType.translucent());
+            ItemBlockRenderTypes.setRenderLayer(ModFluids.MY_FLOWING_FLUID_BLOCK.get(), RenderType.translucent());
         });
 
     }
@@ -90,6 +97,7 @@ public class ModClientEventHandler {
     @SubscribeEvent
     public static void registerGuiOverlays(RegisterGuiOverlaysEvent event) {
         event.registerAboveAll(new ResourceLocation(ExampleMod.MODID,"example_hud"), ExampleHud.getInstance());
+        event.registerAboveAll(new ResourceLocation(ExampleMod.MODID,"thirst_hud"), ThirstHud.HUD_THIRST);
     }
 
 

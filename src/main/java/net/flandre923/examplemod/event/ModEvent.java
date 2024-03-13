@@ -6,12 +6,17 @@ import net.flandre923.examplemod.block.blockentity.ModBlockEntities;
 import net.flandre923.examplemod.capability.ISpeedUpCapability;
 import net.flandre923.examplemod.capability.ModCapabilities;
 import net.flandre923.examplemod.capability.impl.SimpleCapability;
+import net.flandre923.examplemod.capability.impl.thirst.PlayerThirst;
 import net.flandre923.examplemod.capability.provider.SpeedUpCapabilityProvider;
+import net.flandre923.examplemod.capability.provider.thirst.PlayerThirstProvider;
 import net.flandre923.examplemod.entity.FirstAnimal;
 import net.flandre923.examplemod.entity.ModEntityTypes;
 import net.flandre923.examplemod.item.ModItems;
+import net.flandre923.examplemod.network.packet.ThirstData;
 import net.flandre923.examplemod.villager.ModVillagers;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
@@ -21,17 +26,23 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.LogicalSide;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.ICapabilityProvider;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+import net.neoforged.neoforge.event.TickEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.village.VillagerTradesEvent;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.wrapper.InvWrapper;
+import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 
+import javax.swing.text.html.Option;
 import java.util.List;
+import java.util.Optional;
 
 public class ModEvent {
     @Mod.EventBusSubscriber(modid = ExampleMod.MODID,bus = Mod.EventBusSubscriber.Bus.FORGE)
@@ -56,6 +67,37 @@ public class ModEvent {
                 trades.get(villagerLevel).add((trader, rand) -> new MerchantOffer(
                         new ItemStack(Items.EMERALD, 5),
                         stack,10,8,0.02F));
+            }
+        }
+
+
+        @SubscribeEvent
+        public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
+            if(event.side == LogicalSide.SERVER) {
+                Optional<PlayerThirst> optionalPlayerThirst = Optional.ofNullable(event.player.getCapability(ModCapabilities.PLAYER_THIRST_HANDLER));
+                optionalPlayerThirst .ifPresent(thirst -> {
+                    if(thirst.getThirst() > 0 && event.player.getRandom().nextFloat() < 0.005f) { // Once Every 10 Seconds on Avg
+                        thirst.subThirst(1);
+                        // TODO 同步数据
+//                        ModMessages.sendToPlayer(new ThirstDataSyncS2CPacket(thirst.getThirst()),(ServerPlayer) event.player);
+                        PacketDistributor.PLAYER.with((ServerPlayer) event.player).send(new ThirstData(thirst.getThirst()));
+                        event.player.sendSystemMessage(Component.literal("Subtracted Thirst"));
+                    }
+                });
+            }
+        }
+
+        @SubscribeEvent
+        public static void onPlayerJoinWorld(EntityJoinLevelEvent event) {
+            if(!event.getLevel().isClientSide()) {
+                if(event.getEntity() instanceof ServerPlayer player) {
+                    Optional<PlayerThirst> optionalPlayerThirst = Optional.ofNullable(player.getCapability(ModCapabilities.PLAYER_THIRST_HANDLER));
+                    optionalPlayerThirst.ifPresent(thirst -> {
+                        // TODO 同步数据
+                        PacketDistributor.PLAYER.with((ServerPlayer) player).send(new ThirstData(thirst.getThirst()));
+//                        ModMessages.sendToPlayer(new ThirstDataSyncS2CPacket(thirst.getThirst()), player);
+                    });
+                }
             }
         }
 
@@ -129,6 +171,10 @@ public class ModEvent {
             event.registerEntity(ModCapabilities.SPEED_CAPABILITY_HANDLER,
                     EntityType.PLAYER,
                     new SpeedUpCapabilityProvider());
+
+            event.registerEntity(ModCapabilities.PLAYER_THIRST_HANDLER,
+                    EntityType.PLAYER,
+                    new PlayerThirstProvider());
         }
     }
 

@@ -6,6 +6,8 @@ import net.flandre923.examplemod.block.blockentity.ModBlockEntities;
 import net.flandre923.examplemod.client.gui.ModMenuTypes;
 import net.flandre923.examplemod.enchantment.ModEnchantments;
 import net.flandre923.examplemod.entity.ModEntityTypes;
+import net.flandre923.examplemod.fluid.ModFluidType;
+import net.flandre923.examplemod.fluid.ModFluids;
 import net.flandre923.examplemod.item.ModCreativeTab;
 import net.flandre923.examplemod.item.ModItems;
 import net.flandre923.examplemod.painting.ModPaintings;
@@ -58,6 +60,8 @@ public class ExampleMod
         ModEntityTypes.register(modEventBus);
         ModEnchantments.register(modEventBus);
         ModMenuTypes.register(modEventBus);
+        ModFluidType.register(modEventBus);
+        ModFluids.register(modEventBus);
         NeoForge.EVENT_BUS.register(this);
     }
 

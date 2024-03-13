@@ -1,7 +1,9 @@
 package net.flandre923.examplemod.network;
 
 import com.mojang.logging.LogUtils;
+import net.flandre923.examplemod.client.util.ClientPlayerThirstData;
 import net.flandre923.examplemod.network.packet.MyData;
+import net.flandre923.examplemod.network.packet.ThirstData;
 import net.minecraft.network.chat.Component;
 import net.neoforged.neoforge.network.handling.PlayPayloadContext;
 import org.slf4j.Logger;
@@ -27,6 +29,15 @@ public class ClientPayloadHandler {
                     context.packetHandler().disconnect(Component.translatable("my_mod.networking.failed", e.getMessage()));
                     return null;
                 });
+    }
+
+    public void handleThirstData(final ThirstData data,final PlayPayloadContext context){
+        context.workHandler().submitAsync(()->{
+            ClientPlayerThirstData.set(data.thirst());
+        }).exceptionally(e->{
+            context.packetHandler().disconnect(Component.translatable("my_mod.networking.failed", e.getMessage()));
+            return null;
+        });
     }
 
 }

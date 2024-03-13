@@ -1,9 +1,11 @@
 package net.flandre923.examplemod.capability;
 
 import net.flandre923.examplemod.ExampleMod;
+import net.flandre923.examplemod.capability.impl.thirst.PlayerThirst;
 import net.flandre923.examplemod.enchantment.ExampleModReference;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.capabilities.BlockCapability;
 import net.neoforged.neoforge.capabilities.EntityCapability;
 
@@ -21,5 +23,8 @@ public class ModCapabilities {
             EntityCapability.createVoid(new ResourceLocation(ExampleMod.MODID,"speed_capability_handler"),
                     ISpeedUpCapability.class);
 
+    public static final EntityCapability<PlayerThirst,Void> PLAYER_THIRST_HANDLER =
+            EntityCapability.createVoid(new ResourceLocation(ExampleMod.MODID,"player_thirst_handler"),
+                    PlayerThirst.class);
 
 }

@@ -2,12 +2,14 @@ package net.flandre923.examplemod.block;
 
 import net.flandre923.examplemod.ExampleMod;
 import net.flandre923.examplemod.block.custom.*;
+import net.flandre923.examplemod.fluid.ModFluids;
 import net.flandre923.examplemod.item.ModItems;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -37,6 +39,8 @@ public class ModBlocks {
     public static final Supplier<Block> TRASH_BLOCK = registerBlock("trash_block",TrashBlock::new);
     public static final Supplier<Block> DATA_SAVE_BLOCK = registerBlock("data_save_block",DataSaveBlock::new);
     public static final Supplier<Block> FIRST_MENU_BLOCK = registerBlock("first_menu_block",FirstMenuBlock::new);
+    public static final Supplier<LiquidBlock> MY_FLUID_BLOCK = BLOCKS.register("my_fluid_block",
+            ()->new LiquidBlock(ModFluids.MY_SOURCE_FLUID_BLOCK,BlockBehaviour.Properties.ofFullCopy(Blocks.WATER)));
 
     public static Supplier<Block> registerBlock(String name,Supplier<Block> block){
         Supplier<Block> toReturn = BLOCKS.register(name, block);
