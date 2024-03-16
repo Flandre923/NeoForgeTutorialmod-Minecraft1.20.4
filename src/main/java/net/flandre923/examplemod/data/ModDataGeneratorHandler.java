@@ -55,6 +55,9 @@ public class ModDataGeneratorHandler {
                 event.includeServer(),
                 (DataProvider.Factory<ModBlockTagProvider>) pOutput -> new ModBlockTagProvider(pOutput,lp,ExampleMod.MODID,efh)
         );
+        //world  gen
+
+        event.getGenerator().addProvider(event.includeServer(), (DataProvider.Factory<ModWorldGen>) pOutput -> new ModWorldGen(pOutput,lp));
 
 
 
