@@ -1,0 +1,6 @@
+{
+  "type": "examplemod:my_structure",
+  "biomes": "#minecraft:is_overworld",
+  "spawn_overrides": {},
+  "step": "surface_structures"
+}

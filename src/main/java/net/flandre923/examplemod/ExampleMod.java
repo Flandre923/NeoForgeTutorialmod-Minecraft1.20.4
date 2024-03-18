@@ -12,6 +12,8 @@ import net.flandre923.examplemod.item.ModCreativeTab;
 import net.flandre923.examplemod.item.ModItems;
 import net.flandre923.examplemod.painting.ModPaintings;
 import net.flandre923.examplemod.villager.ModVillagers;
+import net.flandre923.examplemod.world.structure.ModStructurePieceTypes;
+import net.flandre923.examplemod.world.structure.ModStructureType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -62,6 +64,8 @@ public class ExampleMod
         ModMenuTypes.register(modEventBus);
         ModFluidType.register(modEventBus);
         ModFluids.register(modEventBus);
+        ModStructureType.register(modEventBus);
+        ModStructurePieceTypes.register(modEventBus);
         NeoForge.EVENT_BUS.register(this);
     }
 
