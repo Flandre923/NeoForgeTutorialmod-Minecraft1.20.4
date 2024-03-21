@@ -40,6 +40,4 @@ public class MyStructure extends Structure {
     public StructureType<?> type() {
         return ModStructureType.MY_STRUCTURE.get();
     }
-
-
 }
