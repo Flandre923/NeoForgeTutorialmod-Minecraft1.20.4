@@ -4,6 +4,7 @@ import net.flandre923.examplemod.ExampleMod;
 import net.flandre923.examplemod.world.ModBiomeModifiers;
 import net.flandre923.examplemod.world.ModOreFeatures;
 import net.flandre923.examplemod.world.ModOrePlacements;
+import net.flandre923.examplemod.world.biome.ModBiomeData;
 import net.flandre923.examplemod.world.structure.ModStructureSets;
 import net.flandre923.examplemod.world.structure.ModStructures;
 import net.minecraft.core.HolderLookup;
@@ -22,7 +23,8 @@ public class ModWorldGen extends DatapackBuiltinEntriesProvider {
             .add(Registries.PLACED_FEATURE, ModOrePlacements::bootstrap)
             .add(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ModBiomeModifiers::bootstrap)
             .add(Registries.STRUCTURE_SET, ModStructureSets::bootstrap)
-            .add(Registries.STRUCTURE, ModStructures::bootstrap);
+            .add(Registries.STRUCTURE, ModStructures::bootstrap)
+            .add(Registries.BIOME, ModBiomeData::bootstrap);
 
     public ModWorldGen(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
         super(output, registries, BUILDER,Set.of(ExampleMod.MODID));
