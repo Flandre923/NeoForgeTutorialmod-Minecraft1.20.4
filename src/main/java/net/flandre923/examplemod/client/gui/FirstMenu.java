@@ -15,6 +15,7 @@ public class FirstMenu extends AbstractContainerMenu {
     public FirstMenu(int pContainerId, Inventory inv, FriendlyByteBuf buf) {
         this(pContainerId,inv,inv.player.level().getBlockEntity(buf.readBlockPos()),new SimpleContainerData(1));
     }
+
     public FirstMenu(int pContainerId, Inventory inv, BlockEntity entity, ContainerData data) {
         super(ModMenuTypes.FIRST_MENU.get(), pContainerId);
         checkContainerSize(inv,1);

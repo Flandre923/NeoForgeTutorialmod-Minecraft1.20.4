@@ -12,8 +12,11 @@ import net.flandre923.examplemod.item.ModCreativeTab;
 import net.flandre923.examplemod.item.ModItems;
 import net.flandre923.examplemod.painting.ModPaintings;
 import net.flandre923.examplemod.villager.ModVillagers;
+import net.flandre923.examplemod.world.biome.ModTerrablender;
 import net.flandre923.examplemod.world.structure.ModStructurePieceTypes;
 import net.flandre923.examplemod.world.structure.ModStructureType;
+import net.flandre923.examplemod.world.structure.ModStructures;
+import net.flandre923.examplemod.world.surface.ModSurfaceRules;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -43,6 +46,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import org.slf4j.Logger;
+import terrablender.api.SurfaceRuleManager;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(ExampleMod.MODID)
@@ -66,11 +70,15 @@ public class ExampleMod
         ModFluids.register(modEventBus);
         ModStructureType.register(modEventBus);
         ModStructurePieceTypes.register(modEventBus);
+        ModTerrablender.registerBiome();
         NeoForge.EVENT_BUS.register(this);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event)
     {
+        event.enqueueWork(()->{
+            SurfaceRuleManager.addSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD, ExampleMod.MODID, ModSurfaceRules.makeRules());
+        });
     }
 
 

@@ -1,5 +1,6 @@
-// 1.20.4	2024-03-17T10:47:13.9176662	Registries
+// 1.20.4	2024-03-29T17:19:51.9601395	Registries
 6512ed8bef585c814aac269829871e1e4a5c1de9 data/examplemod/neoforge/biome_modifier/add_ruby_ore.json
+8d8effd7b0bb47a72e0c43de5ac54c4a884ceaca data/examplemod/worldgen/biome/example_biome.json
 5f893bb9f469a04338574710ed62fbd875cf93ab data/examplemod/worldgen/configured_feature/ruby.json
 d84dfe2375f8030f65eb95c99e606b355235cca1 data/examplemod/worldgen/placed_feature/ore_ruby.json
 6f24546b51e115f676c6a00c0ec0a8dbb9d41fa4 data/examplemod/worldgen/structure/my_structure.json
