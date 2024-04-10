@@ -1,27 +1,29 @@
 package net.flandre923.examplemod.event;
 
+import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.tree.LiteralCommandNode;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.flandre923.examplemod.ExampleMod;
 import net.flandre923.examplemod.block.blockentity.ModBlockEntities;
-import net.flandre923.examplemod.capability.ISpeedUpCapability;
 import net.flandre923.examplemod.capability.ModCapabilities;
 import net.flandre923.examplemod.capability.impl.SimpleCapability;
 import net.flandre923.examplemod.capability.impl.thirst.PlayerThirst;
 import net.flandre923.examplemod.capability.provider.SpeedUpCapabilityProvider;
 import net.flandre923.examplemod.capability.provider.thirst.PlayerThirstProvider;
+import net.flandre923.examplemod.command.ExampleCommand;
 import net.flandre923.examplemod.entity.FirstAnimal;
 import net.flandre923.examplemod.entity.ModEntityTypes;
 import net.flandre923.examplemod.item.ModItems;
 import net.flandre923.examplemod.network.packet.ThirstData;
 import net.flandre923.examplemod.villager.ModVillagers;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.trading.MerchantOffer;
@@ -29,18 +31,16 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.LogicalSide;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.capabilities.ICapabilityProvider;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.TickEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.village.VillagerTradesEvent;
 import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.wrapper.InvWrapper;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -100,6 +100,19 @@ public class ModEvent {
                 }
             }
         }
+
+        @SubscribeEvent
+        public static void onServerStaring(RegisterCommandsEvent event) {
+            CommandDispatcher<CommandSourceStack> dispatcher = event.getDispatcher();
+            LiteralCommandNode<CommandSourceStack> cmd = dispatcher.register(
+                    Commands.literal(ExampleMod.MODID).then(
+                            Commands.literal("test")
+                                    .requires((commandSourceStack -> commandSourceStack.hasPermission(2)))
+                                    .executes(ExampleCommand.INSTANCE)
+                    )
+            );
+        }
+
 
     }
 
