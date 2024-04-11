@@ -1,6 +1,7 @@
 package net.flandre923.examplemod;
 
 import com.mojang.logging.LogUtils;
+import net.flandre923.examplemod.advancement.InitTrigger;
 import net.flandre923.examplemod.block.ModBlocks;
 import net.flandre923.examplemod.block.blockentity.ModBlockEntities;
 import net.flandre923.examplemod.client.gui.ModMenuTypes;
@@ -68,6 +69,7 @@ public class ExampleMod
         ModMenuTypes.register(modEventBus);
         ModFluidType.register(modEventBus);
         ModFluids.register(modEventBus);
+        InitTrigger.register(modEventBus);
         ModStructureType.register(modEventBus);
         ModStructurePieceTypes.register(modEventBus);
         ModTerrablender.registerBiome();

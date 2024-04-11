@@ -1,7 +1,9 @@
 package net.flandre923.examplemod.block.custom;
 
+import net.flandre923.examplemod.advancement.InitTrigger;
 import net.flandre923.examplemod.level.ModLevelSaveData;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -31,6 +33,7 @@ public class DataSaveBlock extends Block {
                 ItemStack itemStack =mainHandItem.copy();
                 mainHandItem.shrink(mainHandItem.getCount());
                 data.putItem(itemStack);
+                InitTrigger.GIVE_RUBY_APPLE.get().trigger((ServerPlayer) pPlayer);
             }
         }
         return InteractionResult.SUCCESS;

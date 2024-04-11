@@ -1,0 +1,25 @@
+{
+  "criteria": {
+    "use_level_data_block": {
+      "trigger": "examplemod:give_ruby_apple"
+    }
+  },
+  "display": {
+    "background": "minecraft:textures/gui/advancements/backgrounds/adventure.png",
+    "description": {
+      "translate": "advancements.adventure.ruby_apple.description"
+    },
+    "icon": {
+      "item": "examplemod:ruby_apple"
+    },
+    "title": {
+      "translate": "advancements.adventure.ruby_apple.title"
+    }
+  },
+  "requirements": [
+    [
+      "use_level_data_block"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

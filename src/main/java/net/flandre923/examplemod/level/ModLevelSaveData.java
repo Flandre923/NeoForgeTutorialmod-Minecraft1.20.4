@@ -47,7 +47,6 @@ public class ModLevelSaveData extends SavedData {
     }
 
     private ModLevelSaveData load(CompoundTag nbt) {
-        ModLevelSaveData data = this.create();
         ListTag listNBT = (ListTag) nbt.get("list");
         if (listNBT != null) {
             for (Tag value : listNBT) {
@@ -56,15 +55,12 @@ public class ModLevelSaveData extends SavedData {
                 itemStacks.push(itemStack);
             }
         }
-
         // Load saved data
-        return data;
+        return this;
     }
 
     private static ModLevelSaveData decode(CompoundTag tag){
-        ModLevelSaveData modLevelSaveData = ModLevelSaveData.create();
-        modLevelSaveData.load(tag);
-        return modLevelSaveData;
+        return ModLevelSaveData.create().load(tag);
     }
 
 

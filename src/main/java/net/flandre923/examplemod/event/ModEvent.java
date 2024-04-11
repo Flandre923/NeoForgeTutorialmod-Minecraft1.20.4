@@ -4,6 +4,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.flandre923.examplemod.ExampleMod;
+import net.flandre923.examplemod.advancement.InitTrigger;
 import net.flandre923.examplemod.block.blockentity.ModBlockEntities;
 import net.flandre923.examplemod.capability.ModCapabilities;
 import net.flandre923.examplemod.capability.impl.SimpleCapability;
@@ -98,6 +99,7 @@ public class ModEvent {
 //                        ModMessages.sendToPlayer(new ThirstDataSyncS2CPacket(thirst.getThirst()), player);
                     });
                 }
+
             }
         }
 

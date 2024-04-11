@@ -1,6 +1,7 @@
 package net.flandre923.examplemod.data;
 
 import net.flandre923.examplemod.ExampleMod;
+import net.flandre923.examplemod.data.loot.ModAdvancementProvider;
 import net.flandre923.examplemod.data.loot.ModBlockLootProvider;
 import net.flandre923.examplemod.data.loot.ModLootTableProvider;
 import net.flandre923.examplemod.data.tag.ModBlockTagProvider;
@@ -49,6 +50,11 @@ public class ModDataGeneratorHandler {
                         List.of(
                                 new LootTableProvider.SubProviderEntry(ModBlockLootProvider::new, LootContextParamSets.BLOCK)
                         ))
+        );
+        //
+        event.getGenerator().addProvider(
+                event.includeServer(),
+                (DataProvider.Factory<net.minecraft.data.advancements.AdvancementProvider>) pOutput -> ModAdvancementProvider.create(pOutput,lp)
         );
         // tag
         event.getGenerator().addProvider(
