@@ -5,6 +5,7 @@ import net.flandre923.examplemod.advancement.InitTrigger;
 import net.flandre923.examplemod.block.ModBlocks;
 import net.flandre923.examplemod.block.blockentity.ModBlockEntities;
 import net.flandre923.examplemod.client.gui.ModMenuTypes;
+import net.flandre923.examplemod.config.Config;
 import net.flandre923.examplemod.enchantment.ModEnchantments;
 import net.flandre923.examplemod.entity.ModEntityTypes;
 import net.flandre923.examplemod.fluid.ModFluidType;
@@ -73,6 +74,8 @@ public class ExampleMod
         ModStructureType.register(modEventBus);
         ModStructurePieceTypes.register(modEventBus);
         ModTerrablender.registerBiome();
+        //config
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
         NeoForge.EVENT_BUS.register(this);
     }
 
@@ -81,6 +84,15 @@ public class ExampleMod
         event.enqueueWork(()->{
             SurfaceRuleManager.addSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD, ExampleMod.MODID, ModSurfaceRules.makeRules());
         });
+
+        // log config info
+        if (Config.logDirtBlock)
+            LOGGER.info("DIRT BLOCK >> {}", BuiltInRegistries.BLOCK.getKey(Blocks.DIRT));
+
+        LOGGER.info(Config.magicNumberIntroduction + Config.magicNumber);
+
+        Config.items.forEach((item) -> LOGGER.info("ITEM >> {}", item.toString()));
+
     }
 
 
