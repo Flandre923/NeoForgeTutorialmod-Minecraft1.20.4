@@ -16,6 +16,7 @@ import net.flandre923.examplemod.item.ModItems;
 import net.flandre923.examplemod.painting.ModPaintings;
 import net.flandre923.examplemod.particle.type.ModParticleType;
 import net.flandre923.examplemod.potion.ModPotions;
+import net.flandre923.examplemod.sounds.ModSounds;
 import net.flandre923.examplemod.villager.ModVillagers;
 import net.flandre923.examplemod.world.biome.ModTerrablender;
 import net.flandre923.examplemod.world.structure.ModStructurePieceTypes;
@@ -74,6 +75,7 @@ public class ExampleMod
         ModFluidType.register(modEventBus);
         ModFluids.register(modEventBus);
         InitTrigger.register(modEventBus);
+        ModSounds.register(modEventBus);
         ModPotions.register(modEventBus);
         ModEffects.register(modEventBus);
         ModParticleType.register(modEventBus);

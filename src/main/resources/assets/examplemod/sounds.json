@@ -1,0 +1,12 @@
+{
+  "example_sound": {
+    "category": "voice",
+    "subtitle": "example_sound",
+    "sounds": [
+      {
+        "name": "examplemod:example_sound",
+        "stream": true
+      }
+    ]
+  }
+}

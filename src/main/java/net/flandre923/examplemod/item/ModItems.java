@@ -35,6 +35,7 @@ public class ModItems {
     public static final Supplier<Item> SPEED_UP_SHOW_ITEM = register("speed_up_show_item",SpeedUpShowItem::new);
     public static final Supplier<Item> MY_FLUID_BUCKET = register("my_fluid_bucket", ()->new BucketItem(ModFluids.MY_SOURCE_FLUID_BLOCK,new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)));
 
+    public static final Supplier<Item> EXAMPLE_SOUND_TEST = register("example_sound_test", ExampleSoundTestItem::new);
     public static Supplier<Item> register(String name, Supplier<Item> supplier){
         Supplier<Item> supplierItem =  ITEMS.register(name,supplier);
         ITEMS_SUPPLIER.add(supplierItem);
