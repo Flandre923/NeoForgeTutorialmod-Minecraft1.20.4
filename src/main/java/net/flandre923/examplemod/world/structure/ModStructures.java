@@ -5,7 +5,7 @@ import net.flandre923.examplemod.world.structure.structure.MyStructure;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.BootstapContext;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BiomeTags;
@@ -40,7 +40,7 @@ public class ModStructures {
         return ResourceKey.create(Registries.STRUCTURE, new ResourceLocation(ExampleMod.MODID,name));
     }
 
-    public static void bootstrap(BootstapContext<Structure> context) {
+    public static void bootstrap(BootstrapContext<Structure> context) {
         HolderGetter<Biome> biomeHolderGetter = context.lookup(Registries.BIOME);
 
         context.register(

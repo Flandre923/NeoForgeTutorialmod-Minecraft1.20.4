@@ -1,16 +1,19 @@
 package net.flandre923.examplemod.item.custom.tool;
 
 import net.flandre923.examplemod.item.ModItems;
-import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.LazyLoadedValue;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.block.Block;
 
 import java.util.function.Supplier;
 
 public enum ModItemTiers implements Tier {
-    RUBY(3,2000,10F,4F,30,() -> Ingredient.of(ModItems.RUBY.get()));
+    RUBY(BlockTags.INCORRECT_FOR_DIAMOND_TOOL,3,2000,10F,4F,30,() -> Ingredient.of(ModItems.RUBY.get()));
 
+    private final TagKey<Block> incorrectBlockForDrops;
     private final int level;
     private final int uses;
     private final float speed;
@@ -18,7 +21,8 @@ public enum ModItemTiers implements Tier {
     private final int enchantmentValue;
     private final LazyLoadedValue<Ingredient> repairIngredient;
 
-    private ModItemTiers(int pLevel, int pUses, float pSpeed, float pDamage, int pEnchantmentValue, Supplier<Ingredient> pRepairIngredient) {
+    private ModItemTiers(TagKey<Block> pIncorrectBlockForDrops,int pLevel, int pUses, float pSpeed, float pDamage, int pEnchantmentValue, Supplier<Ingredient> pRepairIngredient) {
+        this.incorrectBlockForDrops = pIncorrectBlockForDrops;
         this.level = pLevel;
         this.uses = pUses;
         this.speed = pSpeed;
@@ -44,8 +48,8 @@ public enum ModItemTiers implements Tier {
     }
 
     @Override
-    public int getLevel() {
-        return this.level;
+    public TagKey<Block> getIncorrectBlocksForDrops() {
+        return incorrectBlockForDrops;
     }
 
     @Override

@@ -35,10 +35,10 @@ public class FlyingSwordEntity extends Entity {
     }
 
     @Override
-    protected void defineSynchedData() {
-        this.entityData.define(COUNTER, 0);
-
+    protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
+        pBuilder.define(COUNTER,0);
     }
+
 
     @Override
     protected void readAdditionalSaveData(CompoundTag pCompound) {

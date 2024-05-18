@@ -8,17 +8,18 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 
-@Mod.EventBusSubscriber(modid = ExampleMod.MODID,value = Dist.CLIENT)
+@EventBusSubscriber(modid = ExampleMod.MODID,value = Dist.CLIENT)
 public class ForgeClientEventHandler {
 
     @SubscribeEvent
     public static void onKeyInput(InputEvent.Key event) {
         if(KeyBinding.DRINKING_KEY.consumeClick()){
-            PacketDistributor.SERVER.noArg().send(new ThirstData(ClientPlayerThirstData.getPlayerThirst()));
+            PacketDistributor.sendToServer(new ThirstData(ClientPlayerThirstData.getPlayerThirst()));
         }
     }
 

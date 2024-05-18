@@ -40,12 +40,11 @@ public class FirstMenuBlock extends BaseEntityBlock {
     }
 
     @Override
-    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
+    protected InteractionResult useWithoutItem(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, BlockHitResult pHitResult) {
         if (!pLevel.isClientSide){
-            //打开menu
             pPlayer.openMenu(this.getMenuProvider(pState,pLevel,pPos),pPos);
         }
-        return super.use(pState, pLevel, pPos, pPlayer, pHand, pHit);
+        return super.useWithoutItem(pState, pLevel, pPos, pPlayer, pHitResult);
     }
 
 

@@ -13,6 +13,7 @@ import net.flandre923.examplemod.fluid.ModFluidType;
 import net.flandre923.examplemod.fluid.ModFluids;
 import net.flandre923.examplemod.item.ModCreativeTab;
 import net.flandre923.examplemod.item.ModItems;
+import net.flandre923.examplemod.item.custom.tool.ModArmorMaterial;
 import net.flandre923.examplemod.painting.ModPaintings;
 import net.flandre923.examplemod.particle.type.ModParticleType;
 import net.flandre923.examplemod.potion.ModPotions;
@@ -39,6 +40,7 @@ import net.minecraft.world.level.material.MapColor;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
@@ -54,17 +56,18 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import org.slf4j.Logger;
 import terrablender.api.SurfaceRuleManager;
 
-// The value here should match an entry in the META-INF/mods.toml file
+// The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(ExampleMod.MODID)
 public class ExampleMod
 {
     public static final String MODID = "examplemod";
     private static final Logger LOGGER = LogUtils.getLogger();
-     public ExampleMod(IEventBus modEventBus)
+     public ExampleMod(IEventBus modEventBus, ModContainer modContainer)
     {
         modEventBus.addListener(this::commonSetup);
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
+        ModArmorMaterial.register(modEventBus);
         ModCreativeTab.register(modEventBus);
         ModPaintings.register(modEventBus);
         ModVillagers.register(modEventBus);
@@ -83,7 +86,7 @@ public class ExampleMod
         ModStructurePieceTypes.register(modEventBus);
         ModTerrablender.registerBiome();
         //config
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+        modContainer.registerConfig(ModConfig.Type.COMMON,Config.SPEC);
         NeoForge.EVENT_BUS.register(this);
     }
 

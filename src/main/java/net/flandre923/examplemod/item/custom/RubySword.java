@@ -8,6 +8,6 @@ import net.minecraft.world.item.Tier;
 public class RubySword extends SwordItem {
 
     public RubySword(){
-        super(ModItemTiers.RUBY,3,-2.4f,new Item.Properties());
+        super(ModItemTiers.RUBY,new Item.Properties());
     }
 }

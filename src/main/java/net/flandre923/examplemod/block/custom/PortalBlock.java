@@ -8,7 +8,9 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -23,14 +25,15 @@ public class PortalBlock extends Block {
     }
 
     @Override
-    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
-        if(pPlayer.canChangeDimensions()){
-            handlePortalTeleport(pLevel, pPos, pPlayer);
-            return InteractionResult.SUCCESS;
+    protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
+        if (pPlayer.canChangeDimensions()){
+            handlePortalTeleport(pLevel,pPos,pPlayer);
+            return ItemInteractionResult.SUCCESS;
         }else{
-            return   InteractionResult.FAIL;
+            return ItemInteractionResult.FAIL;
         }
     }
+
 
     private void handlePortalTeleport(Level pLevel, BlockPos pPos, Player pPlayer) {
         if(pPlayer.level() instanceof ServerLevel serverLevel){

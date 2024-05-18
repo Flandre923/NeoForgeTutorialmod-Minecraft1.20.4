@@ -13,7 +13,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.network.PacketDistributor;
-import net.neoforged.neoforge.network.handling.PlayPayloadContext;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 import org.slf4j.Logger;
 
 import java.util.Optional;
@@ -26,57 +26,57 @@ public class ServerPayloadHandler {
         return INSTANCE;
     }
 
-    public void handleData(final MyData data, final PlayPayloadContext context) {
+    public static void handleData(final MyData data, final IPayloadContext context) {
         // Do something with the data, on the network thread
 
         // Do something with the data, on the main thread
-        context.workHandler().submitAsync(() -> {
+        context.enqueueWork(() -> {
                     LOGGER.info(data.message());
                 })
                 .exceptionally(e -> {
                     // Handle exception
-                    context.packetHandler().disconnect(Component.translatable("my_mod.networking.failed", e.getMessage()));
+                    context.disconnect(Component.translatable("my_mod.networking.failed", e.getMessage()));
                     return null;
                 });
     }
 
-    public void handleThirstData(final ThirstData data, final PlayPayloadContext context){
-        context.workHandler().submitAsync(()->{
-            context.player().ifPresent(player -> {
-                if (player instanceof ServerPlayer serverPlayer){
-                    ServerLevel level = (ServerLevel) player.level();
-                    if(hasWaterAroundThem(player,level,2)){
+    public static void handleThirstData(final ThirstData data, final IPayloadContext context){
+        context.enqueueWork(()->{
+            Player player = context.player();
 
-                        level.playSound(null, player.getOnPos(), SoundEvents.GENERIC_DRINK, SoundSource.PLAYERS,
-                                0.5F, level.random.nextFloat() * 0.1F + 0.9F);
+            if (player instanceof ServerPlayer serverPlayer){
+                ServerLevel level = (ServerLevel) player.level();
+                if(hasWaterAroundThem(player,level,2)){
 
-                        Optional.ofNullable(player.getCapability(ModCapabilities.PLAYER_THIRST_HANDLER)).ifPresent(thirst->{
-                            thirst.addThirst(1);
+                    level.playSound(null, player.getOnPos(), SoundEvents.GENERIC_DRINK, SoundSource.PLAYERS,
+                            0.5F, level.random.nextFloat() * 0.1F + 0.9F);
 
-                            player.sendSystemMessage(Component.literal("Current Thirst " + thirst.getThirst())
-                                    .withStyle(ChatFormatting.AQUA));
+                    Optional.ofNullable(player.getCapability(ModCapabilities.PLAYER_THIRST_HANDLER)).ifPresent(thirst->{
+                        thirst.addThirst(1);
 
-                            PacketDistributor.PLAYER.with(serverPlayer).send(new ThirstData(thirst.getThirst()));
-                        });
+                        player.sendSystemMessage(Component.literal("Current Thirst " + thirst.getThirst())
+                                .withStyle(ChatFormatting.AQUA));
 
-                    }else{
-                        Optional.ofNullable(player.getCapability(ModCapabilities.PLAYER_THIRST_HANDLER)).ifPresent(thirst -> {
-                            player.sendSystemMessage(Component.literal("Current Thirst " + thirst.getThirst())
-                                    .withStyle(ChatFormatting.AQUA));
-                            // 添加这个代码，当玩家按下o建的时候同步数据
+                        PacketDistributor.sendToPlayer(serverPlayer,new ThirstData(thirst.getThirst()));
+                    });
+
+                }else{
+                    Optional.ofNullable(player.getCapability(ModCapabilities.PLAYER_THIRST_HANDLER)).ifPresent(thirst -> {
+                        player.sendSystemMessage(Component.literal("Current Thirst " + thirst.getThirst())
+                                .withStyle(ChatFormatting.AQUA));
+                        // 添加这个代码，当玩家按下o建的时候同步数据
 //                            ModMessages.sendToPlayer(new ThirstDataSyncS2CPacket(thirst.getThirst()),player);
-                            PacketDistributor.PLAYER.with(serverPlayer).send(new ThirstData(thirst.getThirst()));
-                        });
-                    }
+                        PacketDistributor.sendToPlayer(serverPlayer,new ThirstData(thirst.getThirst()));
+                    });
                 }
-            });
+            }
         }).exceptionally(e->{
-            context.packetHandler().disconnect(Component.translatable("my_mod.networking.failed", e.getMessage()));
+            context.disconnect(Component.translatable("my_mod.networking.failed", e.getMessage()));
             return null;
         });
     }
 
-    private boolean hasWaterAroundThem(Player player, ServerLevel level, int size) {
+    private static boolean hasWaterAroundThem(Player player, ServerLevel level, int size) {
         return level.getBlockStates(player.getBoundingBox().inflate(size))
                 .filter(state -> state.is(Blocks.WATER)).toArray().length > 0;
     }

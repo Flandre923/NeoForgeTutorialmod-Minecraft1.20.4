@@ -5,7 +5,7 @@ import net.flandre923.examplemod.ExampleMod;
 import net.flandre923.examplemod.world.biome.ModBiomeData;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.BootstapContext;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
@@ -29,7 +29,7 @@ public class ModDimensions {
             new ResourceLocation(ExampleMod.MODID, "examplemod_dim"));
     public static final ResourceKey<DimensionType> EXAMPLE_DIM_TYPE = ResourceKey.create(Registries.DIMENSION_TYPE,
             new ResourceLocation(ExampleMod.MODID, "examplemod_dim_type"));
-    public static void bootstrapType(BootstapContext<DimensionType> context) {
+    public static void bootstrapType(BootstrapContext<DimensionType> context) {
         context.register(EXAMPLE_DIM_TYPE, new DimensionType(
                 OptionalLong.of(12000), // fixedTime
                 false, // hasSkylight
@@ -49,7 +49,7 @@ public class ModDimensions {
     }
 
 
-    public static void bootstrapStem(BootstapContext<LevelStem> context) {
+    public static void bootstrapStem(BootstrapContext<LevelStem> context) {
         HolderGetter<Biome> biomeRegistry = context.lookup(Registries.BIOME);
         HolderGetter<DimensionType> dimTypes = context.lookup(Registries.DIMENSION_TYPE);
         HolderGetter<NoiseGeneratorSettings> noiseGenSettings = context.lookup(Registries.NOISE_SETTINGS);

@@ -1,103 +1,71 @@
 package net.flandre923.examplemod.item.custom.tool;
 
+import net.flandre923.examplemod.ExampleMod;
+import net.flandre923.examplemod.command.ExampleCommand;
 import net.flandre923.examplemod.item.ModItems;
 import net.minecraft.Util;
+import net.minecraft.client.resources.sounds.Sound;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.LazyLoadedValue;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredItem;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import org.checkerframework.checker.units.qual.A;
 
 import java.util.EnumMap;
+import java.util.List;
 import java.util.function.Supplier;
 
-public enum ModArmorMaterial implements ArmorMaterial {
+public class ModArmorMaterial  {
 
-    RUBY("ruby", 33, Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
-        map.put(ArmorItem.Type.BOOTS, 3);
-        map.put(ArmorItem.Type.LEGGINGS, 6);
-        map.put(ArmorItem.Type.CHESTPLATE, 8);
-        map.put(ArmorItem.Type.HELMET, 3);
-    }), 10, SoundEvents.ARMOR_EQUIP_DIAMOND, 2.0F, 0.0F, () -> Ingredient.of(ModItems.RUBY.get()));
+    public static final DeferredRegister<ArmorMaterial> ARMOR_MATERIAL = DeferredRegister.create(Registries.ARMOR_MATERIAL, ExampleMod.MODID);
 
-    private static final EnumMap<ArmorItem.Type, Integer> HEALTH_FUNCTION_FOR_TYPE = Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
-        map.put(ArmorItem.Type.BOOTS, 13);
-        map.put(ArmorItem.Type.LEGGINGS, 15);
-        map.put(ArmorItem.Type.CHESTPLATE, 16);
-        map.put(ArmorItem.Type.HELMET, 11);
-    });
-    private final String name;
-    private final int durabilityMultiplier;
-    private final EnumMap<ArmorItem.Type, Integer> protectionFunctionForType;
-    private final int enchantmentValue;
-    private final SoundEvent sound;
-    private final float toughness;
-    private final float knockbackResistance;
-    private final LazyLoadedValue<Ingredient> repairIngredient;
+    public static final DeferredHolder<ArmorMaterial,ArmorMaterial> RUBY = register(
+            "ruby",
+            Util.make(new EnumMap<>(ArmorItem.Type.class),typeObjectEnumMap -> {
+                typeObjectEnumMap.put(ArmorItem.Type.BOOTS,1);
+                typeObjectEnumMap.put(ArmorItem.Type.LEGGINGS,2);
+                typeObjectEnumMap.put(ArmorItem.Type.CHESTPLATE,3);
+                typeObjectEnumMap.put(ArmorItem.Type.HELMET,1);
+                typeObjectEnumMap.put(ArmorItem.Type.BODY,3);
+            }),
+            15,
+            SoundEvents.ARMOR_EQUIP_LEATHER,
+            0F,
+            0F,
+            ()-> Ingredient.of(ModItems.RUBY.get()),
+            List.of(new ArmorMaterial.Layer(new ResourceLocation(ExampleMod.MODID,"ruby"),"",true),new ArmorMaterial.Layer(new ResourceLocation(ExampleMod.MODID,"ruby"),"_overlay",false))
+    );
 
-    private ModArmorMaterial(
-            String pName,
-            int pDurabilityMultiplier,
-            EnumMap<ArmorItem.Type, Integer> pProtectionFunctionForType,
-            int pEnchantmentValue,
-            SoundEvent pSound,
-            float pToughness,
-            float pKnockbackResistance,
-            Supplier<Ingredient> pRepairIngredient
-    ) {
-        this.name = pName;
-        this.durabilityMultiplier = pDurabilityMultiplier;
-        this.protectionFunctionForType = pProtectionFunctionForType;
-        this.enchantmentValue = pEnchantmentValue;
-        this.sound = pSound;
-        this.toughness = pToughness;
-        this.knockbackResistance = pKnockbackResistance;
-        this.repairIngredient = new LazyLoadedValue<>(pRepairIngredient);
+    public static DeferredHolder<ArmorMaterial, ArmorMaterial> register(String name,
+                                                                                 EnumMap<ArmorItem.Type,Integer> pDefense,
+                                                                                 int pEnchantmentValue,
+                                                                                 Holder<SoundEvent> pEquipSound,
+                                                                                 float pToughness,
+                                                                                 float pKnockResistance,
+                                                                                 Supplier<Ingredient> pRepairIngridient,
+                                                                                 List<ArmorMaterial.Layer> pLayers){
+
+        EnumMap<ArmorItem.Type,Integer> enummap = new EnumMap<>(ArmorItem.Type.class);
+
+        for(ArmorItem.Type armorMaterial:ArmorItem.Type.values()){
+            enummap.put(armorMaterial,pDefense.get(armorMaterial));
+        }
+
+        return ARMOR_MATERIAL.register(name,()->new ArmorMaterial(enummap,pEnchantmentValue,pEquipSound,pRepairIngridient,pLayers,pToughness,pKnockResistance));
     }
-
-    @Override
-    public int getDurabilityForType(ArmorItem.Type pType) {
-        return HEALTH_FUNCTION_FOR_TYPE.get(pType) * this.durabilityMultiplier;
-    }
-
-    @Override
-    public int getDefenseForType(ArmorItem.Type pType) {
-        return this.protectionFunctionForType.get(pType);
-    }
-
-    @Override
-    public int getEnchantmentValue() {
-        return this.enchantmentValue;
-    }
-
-    @Override
-    public SoundEvent getEquipSound() {
-        return this.sound;
-    }
-
-    @Override
-    public Ingredient getRepairIngredient() {
-        return this.repairIngredient.get();
-    }
-
-    @Override
-    public String getName() {
-        return this.name;
-    }
-
-    @Override
-    public float getToughness() {
-        return this.toughness;
-    }
-
-    /**
-     * Gets the percentage of knockback resistance provided by armor of the material.
-     */
-    @Override
-    public float getKnockbackResistance() {
-        return this.knockbackResistance;
+    public static void register(IEventBus eventBus){
+        ARMOR_MATERIAL.register(eventBus);
     }
 
 }

@@ -9,6 +9,7 @@ import net.minecraft.data.DataProvider;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
@@ -16,7 +17,7 @@ import net.neoforged.neoforge.data.event.GatherDataEvent;
 import java.util.Collections;
 import java.util.List;
 
-@Mod.EventBusSubscriber(modid = ExampleMod.MODID,bus = Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = ExampleMod.MODID,bus = EventBusSubscriber.Bus.MOD)
 public class ModDataGeneratorHandler {
     @SubscribeEvent
     public static void gatherData(GatherDataEvent event){
@@ -49,7 +50,7 @@ public class ModDataGeneratorHandler {
                 (DataProvider.Factory<ModLootTableProvider>)pOutput -> new ModLootTableProvider(pOutput, Collections.emptySet(),
                         List.of(
                                 new LootTableProvider.SubProviderEntry(ModBlockLootProvider::new, LootContextParamSets.BLOCK)
-                        ))
+                        ),lp)
         );
         //
         event.getGenerator().addProvider(

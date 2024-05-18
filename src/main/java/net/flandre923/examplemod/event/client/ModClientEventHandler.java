@@ -31,16 +31,14 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.neoforge.client.event.EntityRenderersEvent;
-import net.neoforged.neoforge.client.event.ModelEvent;
-import net.neoforged.neoforge.client.event.RegisterGuiOverlaysEvent;
-import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
+import net.neoforged.neoforge.client.event.*;
 
 import java.util.Map;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD,value = Dist.CLIENT)
+@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD,value = Dist.CLIENT)
 public class ModClientEventHandler {
     @SubscribeEvent
     public static void onClientEvent(FMLClientSetupEvent event){
@@ -50,14 +48,17 @@ public class ModClientEventHandler {
             EntityRenderers.register(ModEntityTypes.FLYING_SWORD_ENTITY.get(), FlyingSwordEntityRenderer::new);
             EntityRenderers.register(ModEntityTypes.FIRST_ANIMAL.get(), FirstAnimalRenderer::new);
 
-            MenuScreens.register(ModMenuTypes.FIRST_MENU.get(),FistMenuGui::new);
 
             //fluid
             ItemBlockRenderTypes.setRenderLayer(ModFluids.MY_SOURCE_FLUID_BLOCK.get(), RenderType.translucent());
             ItemBlockRenderTypes.setRenderLayer(ModFluids.MY_FLOWING_FLUID_BLOCK.get(), RenderType.translucent());
         });
-
     }
+    @SubscribeEvent
+    public static void registerMenuScreen(RegisterMenuScreensEvent event){
+        event.register(ModMenuTypes.FIRST_MENU.get(),FistMenuGui::new);
+    }
+
 
     @SubscribeEvent
     public static void registerEntityLayers(EntityRenderersEvent.RegisterLayerDefinitions evt) {
@@ -95,7 +96,7 @@ public class ModClientEventHandler {
     }
 
     @SubscribeEvent
-    public static void registerGuiOverlays(RegisterGuiOverlaysEvent event) {
+    public static void registerGuiOverlays(RegisterGuiLayersEvent event) {
         event.registerAboveAll(new ResourceLocation(ExampleMod.MODID,"example_hud"), ExampleHud.getInstance());
         event.registerAboveAll(new ResourceLocation(ExampleMod.MODID,"thirst_hud"), ThirstHud.HUD_THIRST);
     }

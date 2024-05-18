@@ -1,6 +1,7 @@
 package net.flandre923.examplemod.world.structure.structure;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.flandre923.examplemod.world.structure.ModStructureType;
 import net.flandre923.examplemod.world.structure.piece.MyStructurePieces;
 import net.minecraft.core.BlockPos;
@@ -17,7 +18,7 @@ import java.util.Optional;
 
 public class MyStructure extends Structure {
 
-    public static final Codec<MyStructure> CODEC = simpleCodec(MyStructure::new);
+    public static final MapCodec<MyStructure> CODEC = simpleCodec(MyStructure::new);
 
     public MyStructure(StructureSettings pSettings) {
         super(pSettings);

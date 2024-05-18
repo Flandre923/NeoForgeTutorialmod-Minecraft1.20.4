@@ -14,7 +14,7 @@ import java.util.function.Supplier;
 public class ModPotions {
     public static final DeferredRegister<Potion> POTIONS = DeferredRegister.create(Registries.POTION, ExampleMod.MODID);
 
-    public static final DeferredHolder<Potion,Potion> EXAMPLE_POTION = register("example_potion", () -> new Potion("example_potion",new MobEffectInstance(ModEffects.EXAMPLE_EFFECT.get(),1200,1)));
+    public static final DeferredHolder<Potion,Potion> EXAMPLE_POTION = register("example_potion", () -> new Potion("example_potion",new MobEffectInstance(ModEffects.EXAMPLE_EFFECT,1200,1)));
 
     public static <T extends Potion> DeferredHolder<Potion,T> register(String name, Supplier<T> supplier){
         return POTIONS.register(name, supplier);

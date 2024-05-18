@@ -4,6 +4,7 @@ import net.flandre923.examplemod.ExampleMod;
 import net.flandre923.examplemod.block.blockentity.ModBlockEntities;
 import net.flandre923.examplemod.client.gui.FirstMenu;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
@@ -63,17 +64,18 @@ public class FirstMenuBlockEntity extends BlockEntity implements MenuProvider {
         return new FirstMenu(pContainerId,pPlayerInventory,this,this.data);
     }
 
+
     @Override
-    public void load(CompoundTag pTag) {
-        super.load(pTag);
+    protected void loadAdditional(CompoundTag pTag, HolderLookup.Provider pRegistries) {
+        super.loadAdditional(pTag, pRegistries);
         CompoundTag inventory = pTag.getCompound("inventory");
-        this.itemHandler.deserializeNBT(inventory);
+        this.itemHandler.deserializeNBT(pRegistries,inventory);
     }
 
     @Override
-    protected void saveAdditional(CompoundTag pTag) {
-        super.saveAdditional(pTag);
-        pTag.put("inventory",this.itemHandler.serializeNBT());
+    protected void saveAdditional(CompoundTag pTag, HolderLookup.Provider pRegistries) {
+        super.saveAdditional(pTag, pRegistries);
+        pTag.put("inventory",this.itemHandler.serializeNBT(pRegistries));
     }
 
     public ItemStackHandler getItemHandler(){

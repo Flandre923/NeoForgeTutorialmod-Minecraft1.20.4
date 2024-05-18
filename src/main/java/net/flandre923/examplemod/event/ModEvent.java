@@ -25,18 +25,21 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.trading.ItemCost;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.LogicalSide;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
-import net.neoforged.neoforge.event.TickEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.event.village.VillagerTradesEvent;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -46,7 +49,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class ModEvent {
-    @Mod.EventBusSubscriber(modid = ExampleMod.MODID,bus = Mod.EventBusSubscriber.Bus.FORGE)
+    @EventBusSubscriber(modid = ExampleMod.MODID,bus = EventBusSubscriber.Bus.GAME)
     public static class ForgeEvents{
         @SubscribeEvent
         public static void addCustomTrades(VillagerTradesEvent event) {
@@ -56,7 +59,7 @@ public class ModEvent {
                 int villagerLevel = 1;
 
                 trades.get(villagerLevel).add((trader, rand) -> new MerchantOffer(
-                        new ItemStack(Items.EMERALD, 2),
+                        new ItemCost(Items.EMERALD, 2),
                         stack,10,8,0.02F));
             }
 
@@ -66,23 +69,23 @@ public class ModEvent {
                 int villagerLevel = 1;
 
                 trades.get(villagerLevel).add((trader, rand) -> new MerchantOffer(
-                        new ItemStack(Items.EMERALD, 5),
+                        new ItemCost(Items.EMERALD, 5),
                         stack,10,8,0.02F));
             }
         }
 
 
         @SubscribeEvent
-        public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-            if(event.side == LogicalSide.SERVER) {
-                Optional<PlayerThirst> optionalPlayerThirst = Optional.ofNullable(event.player.getCapability(ModCapabilities.PLAYER_THIRST_HANDLER));
+        public static void onPlayerTick(PlayerTickEvent.Post event) {
+            if(event.getEntity() instanceof ServerPlayer serverPlayer) {
+                Optional<PlayerThirst> optionalPlayerThirst = Optional.ofNullable(serverPlayer.getCapability(ModCapabilities.PLAYER_THIRST_HANDLER));
                 optionalPlayerThirst .ifPresent(thirst -> {
-                    if(thirst.getThirst() > 0 && event.player.getRandom().nextFloat() < 0.005f) { // Once Every 10 Seconds on Avg
+                    if(thirst.getThirst() > 0 && serverPlayer.getRandom().nextFloat() < 0.005f) { // Once Every 10 Seconds on Avg
                         thirst.subThirst(1);
                         // TODO 同步数据
 //                        ModMessages.sendToPlayer(new ThirstDataSyncS2CPacket(thirst.getThirst()),(ServerPlayer) event.player);
-                        PacketDistributor.PLAYER.with((ServerPlayer) event.player).send(new ThirstData(thirst.getThirst()));
-                        event.player.sendSystemMessage(Component.literal("Subtracted Thirst"));
+                        PacketDistributor.sendToPlayer(serverPlayer,new ThirstData(thirst.getThirst()));
+                        serverPlayer.sendSystemMessage(Component.literal("Subtracted Thirst"));
                     }
                 });
             }
@@ -95,7 +98,7 @@ public class ModEvent {
                     Optional<PlayerThirst> optionalPlayerThirst = Optional.ofNullable(player.getCapability(ModCapabilities.PLAYER_THIRST_HANDLER));
                     optionalPlayerThirst.ifPresent(thirst -> {
                         // TODO 同步数据
-                        PacketDistributor.PLAYER.with((ServerPlayer) player).send(new ThirstData(thirst.getThirst()));
+                        PacketDistributor.sendToPlayer(player,new ThirstData(thirst.getThirst()));
 //                        ModMessages.sendToPlayer(new ThirstDataSyncS2CPacket(thirst.getThirst()), player);
                     });
                 }
@@ -118,7 +121,7 @@ public class ModEvent {
 
     }
 
-    @Mod.EventBusSubscriber(modid = ExampleMod.MODID,bus = Mod.EventBusSubscriber.Bus.MOD)
+    @EventBusSubscriber(modid = ExampleMod.MODID,bus = EventBusSubscriber.Bus.MOD)
     public static class ModEventBus{
         @SubscribeEvent
         public static void setupAttributes(EntityAttributeCreationEvent event) {

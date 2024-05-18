@@ -6,7 +6,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -22,7 +24,7 @@ public class DataSaveBlock extends Block {
     }
 
     @Override
-    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
+    protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
         if(!pLevel.isClientSide){
             ModLevelSaveData data  = ModLevelSaveData.get(pLevel);
             ItemStack mainHandItem = pPlayer.getMainHandItem();
@@ -36,6 +38,12 @@ public class DataSaveBlock extends Block {
                 InitTrigger.GIVE_RUBY_APPLE.get().trigger((ServerPlayer) pPlayer);
             }
         }
+        return ItemInteractionResult.SUCCESS;
+    }
+
+    @Override
+    protected InteractionResult useWithoutItem(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, BlockHitResult pHitResult) {
+
         return InteractionResult.SUCCESS;
     }
 }

@@ -19,10 +19,10 @@ public class MessageItem extends Item {
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
         if(pLevel.isClientSide){
 //            PacketDistributor.PLAYER.with(pPlayer).send(new );
-            PacketDistributor.SERVER.noArg().send(new MyData("From client",2));
+            PacketDistributor.sendToServer(new MyData("From client",2));
         }
         if(!pLevel.isClientSide){
-            PacketDistributor.PLAYER.with((ServerPlayer) pPlayer).send(new MyData("From server",2));
+            PacketDistributor.sendToPlayer((ServerPlayer) pPlayer,new MyData("From server",2));
         }
         return super.use(pLevel,pPlayer,pUsedHand);
     }

@@ -11,18 +11,10 @@ import org.joml.Vector4i;
 import java.util.Vector;
 
 public class ExampleParticle extends TextureSheetParticle {
-    public ExampleParticle(ClientLevel pLevel, double pX, double pY, double pZ, Vector3d speed, Vector4i color, float diameter) {
-        super(pLevel, pX, pY, pZ, speed.x,speed.y,speed.z);
+    public ExampleParticle(ClientLevel pLevel, double pX, double pY, double pZ) {
+        super(pLevel, pX, pY, pZ);
         this.lifetime = 100;
-        this.xd = speed.x;
-        this.yd = speed.y;
-        this.zd = speed.z;
-        this.setColor(color.x/255F, color.y/255F, color.z/255F);
-        this.setAlpha(color.w/255F);
-        final float PARTICLE_SCALE_FOR_ONE_METRE = 0.5F;
-        this.quadSize = PARTICLE_SCALE_FOR_ONE_METRE * diameter;
         this.hasPhysics = true;
-
     }
 
     @Override

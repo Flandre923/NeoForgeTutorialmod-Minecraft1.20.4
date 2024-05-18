@@ -10,11 +10,13 @@ public class ExampleEffect extends MobEffect {
     }
 
     @Override
-    public void applyEffectTick(LivingEntity pEntity, int pAmplifier) {
+    public boolean applyEffectTick(LivingEntity pEntity, int pAmplifier) {
         super.applyEffectTick(pEntity, pAmplifier);
         if (pEntity.getHealth() < pEntity.getMaxHealth()) {
             pEntity.heal(2.0F);
+            return true;
         }
+        return false;
     }
 
     @Override

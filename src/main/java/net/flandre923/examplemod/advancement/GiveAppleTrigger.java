@@ -36,7 +36,7 @@ public class GiveAppleTrigger extends SimpleCriterionTrigger<GiveAppleTrigger.In
 
         public static final Codec<GiveAppleTrigger.Instance> CODEC = RecordCodecBuilder.create(
                 p_312304_ -> p_312304_.group(
-                                ExtraCodecs.strictOptionalField(EntityPredicate.ADVANCEMENT_CODEC, "player").forGetter(GiveAppleTrigger.Instance::player)
+                                EntityPredicate.ADVANCEMENT_CODEC.optionalFieldOf("player").forGetter(GiveAppleTrigger.Instance::player)
                         )
                         .apply(p_312304_, GiveAppleTrigger.Instance::new)
         );

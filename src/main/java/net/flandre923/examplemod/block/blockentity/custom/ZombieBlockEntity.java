@@ -2,6 +2,7 @@ package net.flandre923.examplemod.block.blockentity.custom;
 
 import net.flandre923.examplemod.block.blockentity.ModBlockEntities;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.Packet;
@@ -28,23 +29,26 @@ public class ZombieBlockEntity extends BlockEntity {
     public Packet<ClientGamePacketListener> getUpdatePacket() {
         return ClientboundBlockEntityDataPacket.create(this);
     }
-//而onDataPacket才是客户端接受数据包的方法。
+    //而onDataPacket才是客户端接受数据包的方法。
     @Override
-    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
-        handleUpdateTag(pkt.getTag());
+    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider lookupProvider) {
+        super.onDataPacket(net, pkt, lookupProvider);
+        handleUpdateTag(pkt.getTag(),lookupProvider);
     }
-//
+
     @Override
-    public CompoundTag getUpdateTag() {
-        CompoundTag compoundNBT = super.getUpdateTag();
+    public CompoundTag getUpdateTag(HolderLookup.Provider pRegistries) {
+        CompoundTag compoundNBT = super.getUpdateTag(pRegistries);
         compoundNBT.putBoolean("flag", flag);
         return compoundNBT;
     }
 
     @Override
-    public void handleUpdateTag(CompoundTag tag) {
+    public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider lookupProvider) {
+        super.handleUpdateTag(tag, lookupProvider);
         flag = tag.getBoolean("flag");
     }
+
     public static void clientTick(Level pLevel, BlockPos pPos, BlockState pState, ZombieBlockEntity pBlockEntity) {
         if(pLevel.isClientSide && pBlockEntity.flag){
             var player =  pLevel.getNearestPlayer(pPos.getX(),pPos.getY(),pPos.getZ(),10,false);

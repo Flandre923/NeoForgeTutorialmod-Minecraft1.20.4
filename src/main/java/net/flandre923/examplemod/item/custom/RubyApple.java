@@ -7,7 +7,7 @@ import net.minecraft.world.item.Item;
 
 public class RubyApple extends Item {
     private static final FoodProperties FOOD_PROPERTIES = new FoodProperties.Builder()
-            .saturationMod(10)
+            .saturationModifier(10)
             .nutrition(20)
             .effect(()-> new MobEffectInstance(MobEffects.POISON,3*20,1),1)
             .build();

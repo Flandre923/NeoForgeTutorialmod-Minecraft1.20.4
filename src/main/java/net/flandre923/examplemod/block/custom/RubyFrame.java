@@ -73,18 +73,19 @@ public class RubyFrame extends BaseEntityBlock implements SimpleWaterloggedBlock
     }
 
     @Override
-    public boolean isPathfindable(BlockState pState, BlockGetter pLevel, BlockPos pPos, PathComputationType pType) {
-        switch(pType) {
+    protected boolean isPathfindable(BlockState pState, PathComputationType pPathComputationType) {
+        switch(pPathComputationType) {
             case LAND:
                 return false;
             case WATER:
-                return pLevel.getFluidState(pPos).is(FluidTags.WATER);
+                return pState.getFluidState().is(FluidTags.WATER);
             case AIR:
                 return false;
             default:
                 return false;
         }
     }
+
 
 
     @Override

@@ -3,6 +3,8 @@ package net.flandre923.examplemod.event;
 import net.flandre923.examplemod.enchantment.ModEnchantments;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ArrowItem;
@@ -12,10 +14,11 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.event.entity.player.ArrowLooseEvent;
 
-@Mod.EventBusSubscriber
+@EventBusSubscriber
 public class MyPowerEnchantmentEvent {
     @SubscribeEvent
     public static void MyPowerEnchantmentShot(ArrowLooseEvent event){
@@ -24,15 +27,15 @@ public class MyPowerEnchantmentEvent {
         int i = event.getCharge();
         Level level = event.getLevel();
         ItemStack itemstack = player.getProjectile(bow);
-        boolean flag = player.getAbilities().instabuild || EnchantmentHelper.getItemEnchantmentLevel(Enchantments.INFINITY_ARROWS, bow) > 0;
+        boolean flag = player.getAbilities().instabuild || EnchantmentHelper.getItemEnchantmentLevel(Enchantments.INFINITY, bow) > 0;
 
-        shot(itemstack,flag,i,player,level,bow);
+        shot(itemstack,flag,i,player,level,bow,player.getUsedItemHand());
         // 取消掉原版的弓的射箭逻辑
         event.setCanceled(true);
 
     }
 
-    public static void shot(ItemStack itemstack, Boolean flag, int i, Player player, Level pLevel, ItemStack pStack){
+    public static void shot(ItemStack itemstack, Boolean flag, int i, Player player, Level pLevel, ItemStack pStack, InteractionHand pHand){
         if (!itemstack.isEmpty() || flag) {
             if (itemstack.isEmpty()) {
                 itemstack = new ItemStack(Items.ARROW);
@@ -50,25 +53,25 @@ public class MyPowerEnchantmentEvent {
                         abstractarrow.setCritArrow(true);
                     }
 
-                    int j = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.POWER_ARROWS, pStack);
+                    int j = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.POWER, pStack);
                     if (j > 0) {
                         abstractarrow.setBaseDamage(abstractarrow.getBaseDamage() + (double)j * 0.5 + 0.5);
                     }
 
-                    int k = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.PUNCH_ARROWS, pStack);
+                    int k = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.POWER, pStack);
                     if (k > 0) {
                         abstractarrow.setKnockback(k);
                     }
 
-                    if (EnchantmentHelper.getItemEnchantmentLevel(Enchantments.FLAMING_ARROWS, pStack) > 0) {
-                        abstractarrow.setSecondsOnFire(100);
+                    if (EnchantmentHelper.getItemEnchantmentLevel(Enchantments.FLAME, pStack) > 0) {
+                        abstractarrow.setRemainingFireTicks(100);
                     }
                     // 这里是我们的附魔，这里为了效果直接不按照等级，基于了20点基础伤害
                     if(EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.POWER_ARROWS.get(),pStack) > 0){
                         abstractarrow.setBaseDamage(20);
                     }
 
-                    pStack.hurtAndBreak(1, player, p_311711_ -> p_311711_.broadcastBreakEvent(player.getUsedItemHand()));
+                    pStack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(pHand));
                     if (flag1 || player.getAbilities().instabuild && (itemstack.is(Items.SPECTRAL_ARROW) || itemstack.is(Items.TIPPED_ARROW))) {
                         abstractarrow.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
                     }

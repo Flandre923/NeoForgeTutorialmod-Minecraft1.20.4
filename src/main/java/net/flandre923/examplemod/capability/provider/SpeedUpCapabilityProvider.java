@@ -2,11 +2,13 @@ package net.flandre923.examplemod.capability.provider;
 
 import net.flandre923.examplemod.capability.ISpeedUpCapability;
 import net.flandre923.examplemod.capability.impl.SpeedUpCapability;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.capabilities.ICapabilityProvider;
 import net.neoforged.neoforge.common.util.INBTSerializable;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.UnknownNullability;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
@@ -31,12 +33,12 @@ public class SpeedUpCapabilityProvider implements ICapabilityProvider<Player,Voi
 
 
     @Override
-    public CompoundTag serializeNBT() {
-        return this.getOrCreateCapability().serializeNBT();
+    public @UnknownNullability CompoundTag serializeNBT(HolderLookup.Provider provider) {
+        return this.getOrCreateCapability().serializeNBT(provider);
     }
 
     @Override
-    public void deserializeNBT(CompoundTag nbt) {
-        this.getOrCreateCapability().deserializeNBT(nbt);
+    public void deserializeNBT(HolderLookup.Provider provider, CompoundTag nbt) {
+        this.getOrCreateCapability().deserializeNBT(provider,nbt);
     }
 }

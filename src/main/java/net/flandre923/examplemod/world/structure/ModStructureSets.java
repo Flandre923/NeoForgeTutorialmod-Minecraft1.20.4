@@ -3,7 +3,7 @@ package net.flandre923.examplemod.world.structure;
 import net.flandre923.examplemod.ExampleMod;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.BootstapContext;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.biome.Biome;
@@ -17,7 +17,7 @@ import net.minecraft.world.level.levelgen.structure.placement.RandomSpreadType;
 public class ModStructureSets {
     public static final ResourceKey<StructureSet> MY_STRUCTURE_SET = register("my_structure");
 
-    public static void bootstrap(BootstapContext<StructureSet> pContext) {
+    public static void bootstrap(BootstrapContext<StructureSet> pContext) {
         HolderGetter<Structure> holdergetter = pContext.lookup(Registries.STRUCTURE);
 
         pContext.register(

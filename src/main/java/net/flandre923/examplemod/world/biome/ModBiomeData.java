@@ -3,7 +3,7 @@ package net.flandre923.examplemod.world.biome;
 import net.flandre923.examplemod.ExampleMod;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.BootstapContext;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.biome.Biome;
@@ -20,7 +20,7 @@ public class ModBiomeData {
     }
 
 
-    public static void bootstrap(BootstapContext<Biome> pContext) {
+    public static void bootstrap(BootstrapContext<Biome> pContext) {
 
         HolderGetter<PlacedFeature> holdergetter = pContext.lookup(Registries.PLACED_FEATURE);
         HolderGetter<ConfiguredWorldCarver<?>> holdergetter1 = pContext.lookup(Registries.CONFIGURED_CARVER);

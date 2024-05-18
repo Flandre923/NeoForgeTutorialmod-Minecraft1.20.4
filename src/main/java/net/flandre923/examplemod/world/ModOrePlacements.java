@@ -4,7 +4,7 @@ import net.flandre923.examplemod.ExampleMod;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.BootstapContext;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.data.worldgen.features.OreFeatures;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceKey;
@@ -18,7 +18,7 @@ import java.util.List;
 public class ModOrePlacements {
     public static final ResourceKey<PlacedFeature> ORE_RUBY = createKey("ore_ruby");
 
-    public static void bootstrap(BootstapContext<PlacedFeature> pContext) {
+    public static void bootstrap(BootstrapContext<PlacedFeature> pContext) {
         HolderGetter<ConfiguredFeature<?, ?>> holdergetter = pContext.lookup(Registries.CONFIGURED_FEATURE);
 
         Holder<ConfiguredFeature<?, ?>> oreRubyHolder = holdergetter.getOrThrow(ModOreFeatures.ORE_RUBY);
